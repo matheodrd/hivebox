@@ -1,5 +1,8 @@
+from hivebox.version import print_version
+
+
 def main() -> None:
-    print("Hello from hivebox!")
+    print_version()
 
 
 if __name__ == "__main__":
