@@ -5,7 +5,9 @@ description = "An API that transforms openSenseMap environmental data into actio
 readme = "README.md"
 authors = [{ name = "matheodrd" }]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.122.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.9.5,<0.10.0"]
