@@ -22,7 +22,7 @@ The build process uses uv to install dependencies defined in pyproject.toml and 
 #### Run the container
 
 ```sh
-docker run --rm hivebox:0.0.1
+docker run -p 8000:8000 hivebox:0.0.1
 ```
 
 This currently just prints the version.
