@@ -25,4 +25,14 @@ The build process uses uv to install dependencies defined in pyproject.toml and 
 docker run -p 8000:8000 hivebox:0.0.1
 ```
 
-This currently just prints the version.
+This starts the API server on port 8000. You can access the API at `http://localhost:8000`.
+
+#### API Documentation
+
+Once the container is running, you can access the interactive API documentation at `http://localhost:8000/docs` (Swagger UI) or `http://localhost:8000/redoc` (Redoc).
+
+### API Endpoints
+
+| Method | Endpoint   | Description                                    |
+| ------ | ---------- | ---------------------------------------------- |
+| GET    | `/version` | Returns the current version of the Hivebox API |
