@@ -22,4 +22,5 @@ package-dir = "src"
 [dependency-groups]
 dev = [
     "fastapi[standard]>=0.122.0",
+    "pytest>=9.0.2",
 ]
