@@ -1,6 +1,6 @@
 import importlib.metadata
 
 
-def version() -> str:
-    """Return `hivebox` package version."""
-    return importlib.metadata.version("hivebox")
+def print_version() -> None:
+    """Print `hivebox` package version."""
+    print(importlib.metadata.version("hivebox"))
