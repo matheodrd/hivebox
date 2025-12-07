@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from hivebox.version import version
+from hivebox.services.version import version
 
 app = FastAPI(title="Hivebox")
 

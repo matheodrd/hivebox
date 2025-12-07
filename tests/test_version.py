@@ -5,7 +5,7 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 from hivebox.main import app
-from hivebox.version import version
+from hivebox.services.version import version
 
 
 class TestVersionFunction:
@@ -16,7 +16,7 @@ class TestVersionFunction:
         result = version()
         assert len(result) > 0
 
-    @patch("hivebox.version.importlib.metadata.version")
+    @patch("hivebox.services.version.importlib.metadata.version")
     def test_version_with_mocked_metadata(self, mock_version):
         """Test version() with mocked metadata."""
         mock_version.return_value = "1.2.3"
