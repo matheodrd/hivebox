@@ -1,10 +1,9 @@
-from fastapi import FastAPI
-
-from hivebox.version import version
-
-app = FastAPI(title="Hivebox")
+from hivebox.version import print_version
 
 
-@app.get("/version")
-async def get_version() -> str:
-    return version()
+def main() -> None:
+    print_version()
+
+
+if __name__ == "__main__":
+    main()
