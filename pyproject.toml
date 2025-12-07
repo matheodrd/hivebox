@@ -5,7 +5,12 @@ description = "An API that transforms openSenseMap environmental data into actio
 readme = "README.md"
 authors = [{ name = "matheodrd" }]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi>=0.122.0",
+    "httptools>=0.7.1", # faster than the default HTTP parser
+    "uvicorn>=0.38.0",
+    "uvloop>=0.22.1",   # faster than the default asyncio event loop
+]
 
 [build-system]
 requires = ["uv_build>=0.9.5,<0.10.0"]
@@ -13,3 +18,9 @@ build-backend = "uv_build"
 
 [tool.uv-build]
 package-dir = "src"
+
+[dependency-groups]
+dev = [
+    "fastapi[standard]>=0.122.0",
+    "pytest>=9.0.2",
+]
