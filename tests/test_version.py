@@ -1,7 +1,10 @@
 """Unit tests for version module and endpoint."""
 
+import pytest
 from unittest.mock import patch
+from fastapi.testclient import TestClient
 
+from hivebox.main import app
 from hivebox.version import version
 
 
@@ -20,3 +23,35 @@ class TestVersionFunction:
         result = version()
         assert result == "1.2.3"
         mock_version.assert_called_once_with("hivebox")
+
+
+class TestVersionEndpoint:
+    """Tests for the /version endpoint."""
+
+    @pytest.fixture
+    def client(self):
+        """Create a test client for the FastAPI app."""
+        return TestClient(app)
+
+    def test_get_version_returns_200(self, client):
+        """Test that GET /version returns HTTP 200."""
+        response = client.get("/version")
+        assert response.status_code == 200
+
+    def test_get_version_not_empty(self, client):
+        """Test that GET /version does not return an empty string."""
+        response = client.get("/version")
+        assert len(response.json()) > 0
+
+    @patch("hivebox.main.version")
+    def test_get_version_returns_correct_version(self, mock_version, client):
+        """Test that endpoint returns the version from version()."""
+        mock_version.return_value = "2.3.4"
+        response = client.get("/version")
+        assert response.json() == "2.3.4"
+
+    def test_get_version_multiple_calls_consistent(self, client):
+        """Test that multiple calls to /version return consistent results."""
+        response1 = client.get("/version")
+        response2 = client.get("/version")
+        assert response1.json() == response2.json()
