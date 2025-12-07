@@ -8,6 +8,7 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.122.0",
     "httptools>=0.7.1", # faster than the default HTTP parser
+    "httpx>=0.28.1",
     "uvicorn>=0.38.0",
     "uvloop>=0.22.1",   # faster than the default asyncio event loop
 ]
