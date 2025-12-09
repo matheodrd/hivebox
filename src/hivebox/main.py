@@ -42,12 +42,12 @@ def get_sensor_service(client=Depends(get_opensensemap_client)) -> SensorService
     )
 
 
-@app.get("/version", response_model=SuccessResponse[str])
+@app.get("/version")
 async def get_version() -> SuccessResponse[str]:
     return SuccessResponse(data=version())
 
 
-@app.get("/temperature", response_model=SuccessResponse[float])
+@app.get("/temperature")
 async def get_temperature(
     sensor: SensorService = Depends(get_sensor_service),
 ) -> SuccessResponse[float]:
