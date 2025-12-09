@@ -38,17 +38,20 @@ class TestVersionEndpoint:
         response = client.get("/version")
         assert response.status_code == 200
 
-    def test_get_version_not_empty(self, client):
-        """Test that GET /version does not return an empty string."""
+    def test_get_version_response_format(self, client):
+        """Test that GET /version returns correct response format."""
         response = client.get("/version")
-        assert len(response.json()) > 0
+        data = response.json()
+        assert "data" in data
+        assert isinstance(data["data"], str)
+        assert len(data["data"]) > 0
 
     @patch("hivebox.main.version")
     def test_get_version_returns_correct_version(self, mock_version, client):
         """Test that endpoint returns the version from version()."""
         mock_version.return_value = "2.3.4"
         response = client.get("/version")
-        assert response.json() == "2.3.4"
+        assert response.json() == {"data": "2.3.4"}
 
     def test_get_version_multiple_calls_consistent(self, client):
         """Test that multiple calls to /version return consistent results."""
