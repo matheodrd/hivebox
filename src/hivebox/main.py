@@ -1,6 +1,9 @@
 from typing import Callable, cast
+from pathlib import Path
 
 from fastapi import FastAPI, Depends, HTTPException, Request, Response
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from hivebox.api.exceptions import http_exception_handler
 from hivebox.api.schemas import SuccessResponse
@@ -21,6 +24,9 @@ SENSE_BOX_IDS = [
 
 app = FastAPI(title="Hivebox")
 
+static_dir = Path(__file__).parent / "static"
+app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
 # Weird trick here :
 # I need to cast `http_exception_handler` because Pyright is rigid
 # and wants a function with `Exception`, but I use `HTTPException` in mine.
@@ -40,6 +46,12 @@ def get_sensor_service(client=Depends(get_opensensemap_client)) -> SensorService
         opensensemap_client=client,
         sense_box_ids=SENSE_BOX_IDS,
     )
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon() -> FileResponse:
+    favicon_path = static_dir / "favicon.ico"
+    return FileResponse(favicon_path)
 
 
 @app.get("/version")
