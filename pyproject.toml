@@ -24,4 +24,5 @@ package-dir = "src"
 dev = [
     "fastapi[standard]>=0.122.0",
     "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
 ]
