@@ -67,7 +67,7 @@ def new_sense_box(data: dict) -> SenseBox:
         description=data.get("description"),
         created_at=datetime.fromisoformat(data["createdAt"]),
         updated_at=datetime.fromisoformat(data["updatedAt"]),
-        grouptag=data["grouptag"],
+        grouptag=data.get("grouptag", []),
         current_location=CurrentLocation(
             coordinates=data["currentLocation"]["coordinates"],
             type=data["currentLocation"]["type"],
