@@ -33,6 +33,7 @@ Once the container is running, you can access the interactive API documentation 
 
 ### API Endpoints
 
-| Method | Endpoint   | Description                                    |
-| ------ | ---------- | ---------------------------------------------- |
-| GET    | `/version` | Returns the current version of the Hivebox API |
+| Method | Endpoint       | Description                                     |
+| ------ | -------------- | ----------------------------------------------- |
+| GET    | `/version`     | Returns the current version of the Hivebox API  |
+| GET    | `/temperature` | Returns the average temperature from senseBoxes |
