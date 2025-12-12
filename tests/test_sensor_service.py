@@ -2,7 +2,11 @@ import pytest
 from datetime import datetime, timezone, timedelta
 from unittest.mock import AsyncMock
 
-from hivebox.services.sensor import SensorService, NoTemperatureDataError
+from hivebox.services.sensor import (
+    SensorService,
+    NoTemperatureDataError,
+    UnsupportedTemperatureUnitError,
+)
 from hivebox.clients.opensensemap.schemas import (
     SensorsMeasurement,
     Sensor,
@@ -195,3 +199,49 @@ class TestAverageTemperature:
             await service.average_temperature()
 
         mock_client.get_sensors_measurement.assert_not_called()
+
+    @pytest.mark.asyncio
+    async def test_unsupported_temperature_unit_fahrenheit(self):
+        """Test that UnsupportedTemperatureUnitError is raised for Fahrenheit."""
+        mock_client = AsyncMock()
+        now = datetime.now(timezone.utc)
+
+        sensor = Sensor(
+            id="sensor-fahrenheit",
+            title="Temperature",
+            sensor_type="HDC1080",
+            unit="°F",
+            icon="osem-thermometer",
+            last_measurement=LastMeasurement(
+                value="72.5", created_at=now - timedelta(minutes=10)
+            ),
+        )
+        mock_client.get_sensors_measurement.return_value = create_sensors_measurement(
+            "box-1", [sensor]
+        )
+
+        service = SensorService(mock_client, ["box-1"])
+
+        with pytest.raises(UnsupportedTemperatureUnitError) as exc_info:
+            await service.average_temperature()
+
+        assert "°F" in str(exc_info.value)
+        assert "sensor-fahrenheit" in str(exc_info.value)
+        assert "Only °C is supported" in str(exc_info.value)
+
+    @pytest.mark.asyncio
+    async def test_celsius_unit_accepted(self):
+        """Test that °C unit is accepted."""
+        mock_client = AsyncMock()
+        now = datetime.now(timezone.utc)
+
+        sensor = create_sensor("Temperature", "22.5", now - timedelta(minutes=30))
+        mock_client.get_sensors_measurement.return_value = create_sensors_measurement(
+            "box-1", [sensor]
+        )
+
+        service = SensorService(mock_client, ["box-1"])
+        result = await service.average_temperature()
+
+        # Should not raise and return the temperature
+        assert result == 22.5
