@@ -14,7 +14,12 @@ from hivebox.clients.opensensemap.http import (
     OpenSenseMapAPIError,
 )
 from hivebox.services.version import version
-from hivebox.services.sensor import SensorService, NoTemperatureDataError
+from hivebox.services.sensor import (
+    SensorService,
+    NoTemperatureDataError,
+    UnsupportedTemperatureUnitError,
+)
+from hivebox.schemas.temperature import TemperatureResponse
 
 SENSE_BOX_IDS = [
     "59592d0994f05200114428e8",
@@ -62,10 +67,10 @@ async def get_version() -> SuccessResponse[str]:
 @app.get("/temperature")
 async def get_temperature(
     sensor: SensorService = Depends(get_sensor_service),
-) -> SuccessResponse[float]:
+) -> SuccessResponse[TemperatureResponse]:
     try:
         temp = await sensor.average_temperature()
-        return SuccessResponse(data=temp)
+        return SuccessResponse(data=TemperatureResponse(value=temp, unit="°C"))
     except NoTemperatureDataError as e:
         raise HTTPException(status_code=503, detail=str(e))
     except UnsupportedTemperatureUnitError as e:
