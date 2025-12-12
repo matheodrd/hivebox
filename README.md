@@ -3,6 +3,16 @@
 > [!NOTE]
 > This is a practical learning project. I followed requirements and guidelines from the [Dynamic DevOps Roadmap](https://devopsroadmap.io/projects/hivebox).
 
+## About
+
+Hivebox is an API that provides environmental insights for beekeepers by aggregating data from community maintained sensors.
+
+### Data source: OpenSenseMap
+
+This project uses data from [OpenSenseMap](https://opensensemap.org), a citizen science platform for environmental data. OpenSenseMap is part of the [senseBox](https://sensebox.de) project, which enables people to build their own sensor stations and contribute environmental measurements (temperature, humidity, air quality, etc.) to a public database.
+
+Thank you OpenSenseMap 😘
+
 ## Development
 
 ### Local development setup
