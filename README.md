@@ -5,9 +5,69 @@
 
 ## Development
 
-You can build and run Hivebox inside a container using the included [Dockerfile](./Dockerfile).
+### Local development setup
+
+#### Prerequisites
+
+* Python 3.13+
+* [uv](https://docs.astral.sh/uv/) package manager
+
+#### Setup
+
+1. Clone the repository and `cd` into it :
+
+```sh
+git clone git@github.com:matheodrd/hivebox.git
+cd hivebox
+```
+
+2. Create a virtual environment using uv :
+
+```sh
+uv venv
+```
+
+3. Activate the virtual environement :
+
+```sh
+source .venv/bin/activate
+```
+
+4. Install dependencies with uv :
+
+```sh
+uv sync --group dev
+```
+
+This will install all project dependencies and development tools (FastAPI CLI, pytest, etc.).
+
+#### Running tests
+
+Run the unit tests :
+
+```sh
+pytest
+```
+
+Run tests with verbose output :
+
+```sh
+pytest -v
+```
+
+#### Running the API locally
+
+Start the development server :
+
+```sh
+fastapi dev src/hivebox/main.py
+```
+
+The API will be available at `http://localhost:8000`.
 
 ### Build and run with Docker
+
+You can also build and run Hivebox inside a container using the included [Dockerfile](./Dockerfile).
 
 #### Build the image
 
