@@ -68,6 +68,8 @@ async def get_temperature(
         return SuccessResponse(data=temp)
     except NoTemperatureDataError as e:
         raise HTTPException(status_code=503, detail=str(e))
+    except UnsupportedTemperatureUnitError as e:
+        raise HTTPException(status_code=500, detail=str(e))
     except SenseBoxNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except OpenSenseMapAPIError as e:

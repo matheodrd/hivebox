@@ -9,6 +9,12 @@ class NoTemperatureDataError(Exception):
     pass
 
 
+class UnsupportedTemperatureUnitError(Exception):
+    """Raised when a temperature sensor uses an unsupported unit."""
+
+    pass
+
+
 class SensorService:
     def __init__(
         self, opensensemap_client: OpenSenseMapClient, sense_box_ids: list[str]
@@ -36,6 +42,13 @@ class SensorService:
 
             for sensor in sensors_measurement.sensors:
                 if sensor.title in {"Temperature", "Temperatur"}:
+                    # Temperature unit is directly provided by the OpenSenseMap API,
+                    # so we expect it to be °C.
+                    if sensor.unit != "°C":
+                        raise UnsupportedTemperatureUnitError(
+                            f"Unsupported temperature unit '{sensor.unit}' for sensor {sensor.id}. Only °C is supported."
+                        )
+
                     if sensor.last_measurement:
                         # Check if measurement is recent enough
                         measurement_age = now - sensor.last_measurement.created_at
