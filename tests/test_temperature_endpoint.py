@@ -5,7 +5,10 @@ from unittest.mock import AsyncMock
 from fastapi.testclient import TestClient
 
 from hivebox.main import app, get_sensor_service
-from hivebox.services.sensor import NoTemperatureDataError
+from hivebox.services.sensor import (
+    NoTemperatureDataError,
+    UnsupportedTemperatureUnitError,
+)
 from hivebox.clients.opensensemap.http import (
     SenseBoxNotFoundError,
     OpenSenseMapAPIError,
@@ -34,13 +37,18 @@ class TestTemperatureEndpoint:
         response = client.get("/temperature")
 
         assert response.status_code == 200
-        assert response.json() == {"data": 22.5}
+        data = response.json()
+        assert "data" in data
+        assert "value" in data["data"]
+        assert "unit" in data["data"]
+        assert data["data"]["value"] == 22.5
+        assert data["data"]["unit"] == "°C"
         mock_sensor_service.average_temperature.assert_called_once()
 
         app.dependency_overrides.clear()
 
     def test_get_temperature_response_format(self, client, mock_sensor_service):
-        """Test that response follows the standard format."""
+        """Test that response follows the TemperatureResponse format."""
         mock_sensor_service.average_temperature.return_value = 18.3
 
         app.dependency_overrides[get_sensor_service] = lambda: mock_sensor_service
@@ -49,8 +57,13 @@ class TestTemperatureEndpoint:
         data = response.json()
 
         assert "data" in data
-        assert isinstance(data["data"], float)
-        assert data["data"] == 18.3
+        assert isinstance(data["data"], dict)
+        assert "value" in data["data"]
+        assert "unit" in data["data"]
+        assert isinstance(data["data"]["value"], float)
+        assert isinstance(data["data"]["unit"], str)
+        assert data["data"]["value"] == 18.3
+        assert data["data"]["unit"] == "°C"
 
         app.dependency_overrides.clear()
 
@@ -129,6 +142,26 @@ class TestTemperatureEndpoint:
             response = client.get("/temperature")
 
             assert response.status_code == 200
-            assert response.json()["data"] == temp
+            assert response.json()["data"]["value"] == temp
+            assert response.json()["data"]["unit"] == "°C"
+
+        app.dependency_overrides.clear()
+
+    def test_get_temperature_unsupported_unit_error(self, client, mock_sensor_service):
+        """Test 500 error when temperature unit is not supported."""
+        mock_sensor_service.average_temperature.side_effect = (
+            UnsupportedTemperatureUnitError(
+                "Unsupported temperature unit '°F' for sensor sensor-123. Only °C is supported."
+            )
+        )
+
+        app.dependency_overrides[get_sensor_service] = lambda: mock_sensor_service
+
+        response = client.get("/temperature")
+
+        assert response.status_code == 500
+        assert "message" in response.json()
+        assert "Unsupported temperature unit" in response.json()["message"]
+        assert "°F" in response.json()["message"]
 
         app.dependency_overrides.clear()
