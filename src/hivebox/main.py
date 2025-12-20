@@ -47,7 +47,9 @@ def get_opensensemap_client() -> OpenSenseMapClient:
     return OpenSenseMapHTTP()
 
 
-def get_sensor_service(client=Depends(get_opensensemap_client)) -> SensorService:  # noqa: B008 common FastAPI pattern
+def get_sensor_service(
+    client: Annotated[OpenSenseMapClient, Depends(get_opensensemap_client)],
+) -> SensorService:
     return SensorService(
         opensensemap_client=client,
         sense_box_ids=SENSE_BOX_IDS,
