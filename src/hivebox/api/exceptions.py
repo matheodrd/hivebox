@@ -4,7 +4,7 @@ from fastapi.exceptions import HTTPException
 
 
 async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
-    """Handle HTTPException with custom format and centralised logging (well, not yet)."""
+    """Handle HTTPException with custom format and centralised logging (TODO)"""
     # TODO: Add logging here when implementing logging system
 
     return JSONResponse(

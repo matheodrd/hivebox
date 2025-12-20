@@ -46,7 +46,8 @@ class SensorService:
                     # so we expect it to be °C.
                     if sensor.unit != "°C":
                         raise UnsupportedTemperatureUnitError(
-                            f"Unsupported temperature unit '{sensor.unit}' for sensor {sensor.id}. Only °C is supported."
+                            f"Unsupported temperature unit '{sensor.unit}' for sensor "
+                            f"{sensor.id}. Only °C is supported."
                         )
 
                     if sensor.last_measurement:
