@@ -55,6 +55,7 @@ select = [
     "RET",   # flake8-return
     "TC",    # flake8-type-checking
     "FAST",  # FastAPI
+    "ANN",   # flake8-annotations
 ]
 
 [tool.ruff.lint.per-file-ignores]
