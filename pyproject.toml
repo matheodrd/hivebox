@@ -50,6 +50,7 @@ select = [
     "S",     # flake8-bandit
     "PTH",   # flake8-use-pathlib
     "ERA",   # eradicate (commented-out code)
+    "PL",    # pylint
 ]
 
 [tool.ruff.lint.per-file-ignores]
