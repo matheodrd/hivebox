@@ -149,10 +149,8 @@ class TestTemperatureEndpoint:
 
     def test_get_temperature_unsupported_unit_error(self, client, mock_sensor_service):
         """Test 500 error when temperature unit is not supported."""
-        mock_sensor_service.average_temperature.side_effect = (
-            UnsupportedTemperatureUnitError(
-                "Unsupported temperature unit '°F' for sensor sensor-123. Only °C is supported."
-            )
+        mock_sensor_service.average_temperature.side_effect = UnsupportedTemperatureUnitError(  # noqa: E501
+            "Unsupported temperature unit '°F' for sensor sensor-123. Only °C is supported."  # noqa: E501
         )
 
         app.dependency_overrides[get_sensor_service] = lambda: mock_sensor_service

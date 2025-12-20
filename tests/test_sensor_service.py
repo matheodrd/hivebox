@@ -137,7 +137,7 @@ class TestAverageTemperature:
 
     @pytest.mark.asyncio
     async def test_no_temperature_sensor_raises_error(self):
-        """Test that NoTemperatureDataError is raised when no temperature sensor exists."""
+        """Test that NoTemperatureDataError is raised when no temperature sensor exists."""  # noqa: E501
         mock_client = AsyncMock()
         now = datetime.now(timezone.utc)
 

@@ -211,7 +211,7 @@ class TestGetSensorsMeasurement:
 
     @pytest.mark.asyncio
     async def test_get_sensors_measurement_connection_error(self):
-        """Test get_sensors_measurement raises OpenSenseMapAPIError for connection errors."""
+        """Test get_sensors_measurement raises OpenSenseMapAPIError for connection errors."""  # noqa: E501
         client = OpenSenseMapHTTP()
         client.client = AsyncMock()
 
