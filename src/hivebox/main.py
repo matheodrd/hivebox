@@ -67,7 +67,7 @@ async def get_version() -> SuccessResponse[str]:
 
 @app.get("/temperature")
 async def get_temperature(
-    sensor: Annotated[SensorService, Depends(get_sensor_service)],  # noqa: B008 common FastAPI pattern
+    sensor: Annotated[SensorService, Depends(get_sensor_service)],
 ) -> SuccessResponse[TemperatureResponse]:
     try:
         temp = await sensor.average_temperature()
