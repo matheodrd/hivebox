@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import httpx
 
 from hivebox.clients.opensensemap.schemas import (
@@ -48,7 +50,7 @@ class OpenSenseMapHTTP:
             response.raise_for_status()
             return new_sense_box(response.json())
         except httpx.HTTPStatusError as e:
-            if e.response.status_code == 404:
+            if e.response.status_code == HTTPStatus.NOT_FOUND:
                 raise SenseBoxNotFoundError(
                     f"senseBox '{sense_box_id}' not found"
                 ) from e
@@ -78,7 +80,7 @@ class OpenSenseMapHTTP:
             response.raise_for_status()
             return new_sensors_measurement(response.json())
         except httpx.HTTPStatusError as e:
-            if e.response.status_code == 404:
+            if e.response.status_code == HTTPStatus.NOT_FOUND:
                 raise SenseBoxNotFoundError(
                     f"senseBox '{sense_box_id}' not found"
                 ) from e
