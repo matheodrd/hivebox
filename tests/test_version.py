@@ -1,7 +1,8 @@
 """Unit tests for version module and endpoint."""
 
-import pytest
 from unittest.mock import patch
+
+import pytest
 from fastapi.testclient import TestClient
 
 from hivebox.main import app

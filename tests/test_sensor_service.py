@@ -1,16 +1,17 @@
-import pytest
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock
 
-from hivebox.services.sensor import (
-    SensorService,
-    NoTemperatureDataError,
-    UnsupportedTemperatureUnitError,
-)
+import pytest
+
 from hivebox.clients.opensensemap.schemas import (
-    SensorsMeasurement,
-    Sensor,
     LastMeasurement,
+    Sensor,
+    SensorsMeasurement,
+)
+from hivebox.services.sensor import (
+    NoTemperatureDataError,
+    SensorService,
+    UnsupportedTemperatureUnitError,
 )
 
 

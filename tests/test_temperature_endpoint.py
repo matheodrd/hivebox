@@ -1,17 +1,18 @@
 """Unit tests for temperature endpoint."""
 
-import pytest
 from unittest.mock import AsyncMock
+
+import pytest
 from fastapi.testclient import TestClient
 
+from hivebox.clients.opensensemap.http import (
+    OpenSenseMapAPIError,
+    SenseBoxNotFoundError,
+)
 from hivebox.main import app, get_sensor_service
 from hivebox.services.sensor import (
     NoTemperatureDataError,
     UnsupportedTemperatureUnitError,
-)
-from hivebox.clients.opensensemap.http import (
-    SenseBoxNotFoundError,
-    OpenSenseMapAPIError,
 )
 
 

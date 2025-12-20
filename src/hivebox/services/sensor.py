@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 from hivebox.clients.opensensemap.interface import OpenSenseMapClient
 

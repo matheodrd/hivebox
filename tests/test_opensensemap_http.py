@@ -1,13 +1,14 @@
 """Unit tests for OpenSenseMap HTTP client."""
 
-import pytest
 from unittest.mock import AsyncMock, Mock
+
 import httpx
+import pytest
 
 from hivebox.clients.opensensemap.http import (
+    OpenSenseMapAPIError,
     OpenSenseMapHTTP,
     SenseBoxNotFoundError,
-    OpenSenseMapAPIError,
 )
 from hivebox.clients.opensensemap.schemas import SenseBox, SensorsMeasurement
 

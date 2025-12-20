@@ -1,25 +1,25 @@
-from typing import Callable, cast
 from pathlib import Path
+from typing import Callable, cast
 
-from fastapi import FastAPI, Depends, HTTPException, Request, Response
-from fastapi.staticfiles import StaticFiles
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from hivebox.api.exceptions import http_exception_handler
 from hivebox.api.schemas import SuccessResponse
-from hivebox.clients.opensensemap.interface import OpenSenseMapClient
 from hivebox.clients.opensensemap.http import (
+    OpenSenseMapAPIError,
     OpenSenseMapHTTP,
     SenseBoxNotFoundError,
-    OpenSenseMapAPIError,
 )
-from hivebox.services.version import version
+from hivebox.clients.opensensemap.interface import OpenSenseMapClient
+from hivebox.schemas.temperature import TemperatureResponse
 from hivebox.services.sensor import (
-    SensorService,
     NoTemperatureDataError,
+    SensorService,
     UnsupportedTemperatureUnitError,
 )
-from hivebox.schemas.temperature import TemperatureResponse
+from hivebox.services.version import version
 
 SENSE_BOX_IDS = [
     "59592d0994f05200114428e8",
