@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from pathlib import Path
-from typing import cast
+from typing import Annotated, cast
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse
@@ -67,7 +67,7 @@ async def get_version() -> SuccessResponse[str]:
 
 @app.get("/temperature")
 async def get_temperature(
-    sensor: SensorService = Depends(get_sensor_service),  # noqa: B008 common FastAPI pattern
+    sensor: Annotated[SensorService, Depends(get_sensor_service)],  # noqa: B008 common FastAPI pattern
 ) -> SuccessResponse[TemperatureResponse]:
     try:
         temp = await sensor.average_temperature()
