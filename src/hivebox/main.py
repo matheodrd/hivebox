@@ -39,7 +39,7 @@ app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 ExceptionHandlerType = Callable[[Request, Exception], Response]
 
 app.add_exception_handler(
-    HTTPException, cast(ExceptionHandlerType, http_exception_handler)
+    HTTPException, cast("ExceptionHandlerType", http_exception_handler)
 )
 
 
