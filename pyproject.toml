@@ -54,6 +54,7 @@ select = [
     "PERF",  # perflint
     "RET",   # flake8-return
     "TC",    # flake8-type-checking
+    "FAST",  # FastAPI
 ]
 
 [tool.ruff.lint.per-file-ignores]
