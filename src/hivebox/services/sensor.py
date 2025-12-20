@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from hivebox.clients.opensensemap.interface import OpenSenseMapClient
 
@@ -32,7 +32,7 @@ class SensorService:
             NoTemperatureDataError: If no senseBoxes have recent temperature data.
         """
         temperatures: list[float] = []
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         max_age = timedelta(hours=1)
 
         for sense_box_id in self.sense_box_ids:

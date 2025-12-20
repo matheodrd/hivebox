@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from unittest.mock import AsyncMock
 
 import pytest
@@ -45,7 +45,7 @@ class TestAverageTemperature:
     async def test_single_box_recent_temperature(self):
         """Test average temperature with one senseBox with recent data."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor = create_sensor("Temperature", "22.5", now - timedelta(minutes=30))
         mock_client.get_sensors_measurement.return_value = create_sensors_measurement(
@@ -62,7 +62,7 @@ class TestAverageTemperature:
     async def test_multiple_boxes_average(self):
         """Test average temperature from multiple senseBoxes."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor1 = create_sensor("Temperature", "20.0", now - timedelta(minutes=10))
         sensor2 = create_sensor("Temperature", "24.0", now - timedelta(minutes=20))
@@ -84,7 +84,7 @@ class TestAverageTemperature:
     async def test_german_temperature_sensor(self):
         """Test that "Temperatur" is recognized."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor = create_sensor("Temperatur", "18.5", now - timedelta(minutes=5))
         mock_client.get_sensors_measurement.return_value = create_sensors_measurement(
@@ -100,7 +100,7 @@ class TestAverageTemperature:
     async def test_ignore_old_measurements(self):
         """Test that measurements older than 1 hour are ignored."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor_recent = create_sensor(
             "Temperature", "22.0", now - timedelta(minutes=30)
@@ -122,7 +122,7 @@ class TestAverageTemperature:
     async def test_all_measurements_old_raises_error(self):
         """Test that NoTemperatureDataError is raised when all data is old."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor = create_sensor("Temperature", "20.0", now - timedelta(hours=3))
         mock_client.get_sensors_measurement.return_value = create_sensors_measurement(
@@ -140,7 +140,7 @@ class TestAverageTemperature:
     async def test_no_temperature_sensor_raises_error(self):
         """Test that NoTemperatureDataError is raised when no temperature sensor exists."""  # noqa: E501
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         # Only humidity sensor, no temperature
         humidity_sensor = Sensor(
@@ -166,7 +166,7 @@ class TestAverageTemperature:
     async def test_sensor_without_measurement(self):
         """Test handling of sensor without last_measurement."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         # Sensor with None last_measurement
         sensor_no_data = Sensor(
@@ -205,7 +205,7 @@ class TestAverageTemperature:
     async def test_unsupported_temperature_unit_fahrenheit(self):
         """Test that UnsupportedTemperatureUnitError is raised for Fahrenheit."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor = Sensor(
             id="sensor-fahrenheit",
@@ -234,7 +234,7 @@ class TestAverageTemperature:
     async def test_celsius_unit_accepted(self):
         """Test that °C unit is accepted."""
         mock_client = AsyncMock()
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         sensor = create_sensor("Temperature", "22.5", now - timedelta(minutes=30))
         mock_client.get_sensors_measurement.return_value = create_sensors_measurement(
