@@ -49,6 +49,7 @@ select = [
     "ASYNC", # flake8-async
     "S",     # flake8-bandit
     "PTH",   # flake8-use-pathlib
+    "ERA",   # eradicate (commented-out code)
 ]
 
 [tool.ruff.lint.per-file-ignores]
