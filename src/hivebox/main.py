@@ -46,7 +46,7 @@ def get_opensensemap_client() -> OpenSenseMapClient:
     return OpenSenseMapHTTP()
 
 
-def get_sensor_service(client=Depends(get_opensensemap_client)) -> SensorService:
+def get_sensor_service(client=Depends(get_opensensemap_client)) -> SensorService:  # noqa: B008 common FastAPI pattern
     return SensorService(
         opensensemap_client=client,
         sense_box_ids=SENSE_BOX_IDS,
@@ -66,7 +66,7 @@ async def get_version() -> SuccessResponse[str]:
 
 @app.get("/temperature")
 async def get_temperature(
-    sensor: SensorService = Depends(get_sensor_service),
+    sensor: SensorService = Depends(get_sensor_service),  # noqa: B008 common FastAPI pattern
 ) -> SuccessResponse[TemperatureResponse]:
     try:
         temp = await sensor.average_temperature()
