@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
 
 
-async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
+async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:  # noqa: ARG001 TODO
     """Handle HTTPException with custom format and centralised logging (TODO)"""
     # TODO: Add logging here when implementing logging system
 
