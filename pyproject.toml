@@ -62,4 +62,5 @@ select = [
 "tests/**/*.py" = [
     "S101",    # Allow assert in tests
     "PLR2004", # Allow magic values in tests
+    "ANN",     # Don't require annotations in tests
 ]
