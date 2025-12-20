@@ -72,10 +72,12 @@ async def get_temperature(
         temp = await sensor.average_temperature()
         return SuccessResponse(data=TemperatureResponse(value=temp, unit="°C"))
     except NoTemperatureDataError as e:
-        raise HTTPException(status_code=503, detail=str(e))
+        raise HTTPException(status_code=503, detail=str(e)) from e
     except UnsupportedTemperatureUnitError as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
     except SenseBoxNotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e)) from e
     except OpenSenseMapAPIError as e:
-        raise HTTPException(status_code=502, detail=f"External API error: {str(e)}")
+        raise HTTPException(
+            status_code=502, detail=f"External API error: {str(e)}"
+        ) from e
